@@ -1,0 +1,41 @@
+.header-main {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: var(--header-height);
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 100;
+}
+
+.header-main  .container-logo {
+    width: 30%;
+    height: 100%;
+    background-color: var(--secondary-color);
+    border-top-right-radius: 2rem;
+    border-bottom-right-radius: 2rem;
+    padding-left: 1rem;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+}
+
+.header-main  .container-logo img {
+    width: 3rem;
+    height: 3rem;
+    object-fit: contain;
+}
+
+.header-main  h2 {
+    font-size: clamp(1rem, 5vw, 2rem)   ;
+}
+
+.header-main  .container {
+    width: 30%;
+    height: 100%;
+    background-color: var(--secondary-color);
+    border-top-left-radius: 2rem;
+    border-bottom-left-radius: 2rem;
+}
