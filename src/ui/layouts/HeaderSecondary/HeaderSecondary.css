@@ -1,0 +1,51 @@
+.header-secondary {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: var(--header-height);
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    color: var(--black-color);
+    background: var(--secondary-color);
+    padding: 0 2.5rem;
+}
+
+.header-secondary .container-img {
+    width: 30%;
+    height: 100%;
+    padding-left: 1rem;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+}
+
+.header-secondary .container-img img {
+    width: 30%;
+    min-width: 7rem;
+    height: 90%;
+    object-fit: contain;
+}
+
+.header-secondary .container-profile {
+    width: 20%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    cursor: pointer;
+}
+
+.header-secondary .container-profile:hover {
+    background-color: rgba(0, 0, 0, 0.116);
+}
+
+.header-secondary .container-profile .container-img-profile {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 100%;
+    overflow: hidden;
+}

@@ -1,6 +1,7 @@
 import React from 'react';
 import './FormularyLogin.css';
 import { motion } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 
 interface FormularyLoginProps {
     handlerRegister: () => void;
@@ -8,6 +9,13 @@ interface FormularyLoginProps {
 }
 
 export const FormularyLogin: React.FC<FormularyLoginProps> = ({ handlerRegister, variants }) => {
+
+    const navigate = useNavigate();
+
+    const handlerLogin = () => {
+        navigate('history');
+    };
+
     return (
         <motion.form
             className="form-login"
@@ -25,7 +33,7 @@ export const FormularyLogin: React.FC<FormularyLoginProps> = ({ handlerRegister,
             <input type="password" placeholder="Contraseña" />
             <div className="container-button-login">
                 <button type="button" onClick={handlerRegister}>Registrarse</button>
-                <button type="submit">Iniciar Sesión</button>
+                <button type="button" onClick={handlerLogin}>Iniciar Sesión</button>
             </div>
         </motion.form>
     );
