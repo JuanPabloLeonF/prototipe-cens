@@ -1,10 +1,8 @@
 import "./History.css";
-import { HeaderSecondary } from "../../layouts/HeaderSecondary/HeaderSecondary";
 
 export const History: React.FC = () => {
     return (
        <section className="history">
-            <HeaderSecondary />
             <div className="container-history">
                 <div className="container-diagram">
                     <h2>Historico</h2>

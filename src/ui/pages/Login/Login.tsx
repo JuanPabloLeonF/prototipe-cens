@@ -1,10 +1,9 @@
-import { HeaderMain } from "../../layouts/HeaderMain/HeaderMain";
 import { useState } from "react";
 import { FormularyLogin } from "../../components/FormularyLogin/FormularyLogin";
 import { FormularyRegister } from "../../components/FormularyRegister/FormularyRegister";
-import "./Login.css";
 import { AnimatePresence, motion } from "framer-motion";
 import { useMediaQuery } from "./../../../domain/hooks/useMediaQuery"
+import "./Login.css";
 
 export const Login: React.FC = () => {
     const [register, setRegister] = useState(false);
@@ -31,7 +30,6 @@ export const Login: React.FC = () => {
 
     return (
         <section className="section-login">
-            <HeaderMain />
             <div className={register ? "container-login register" : "container-login"}>
                 <motion.div
                     className="container-img-login"
