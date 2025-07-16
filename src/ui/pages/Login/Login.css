@@ -9,30 +9,26 @@
     width: 100%;
     height: 100%;
     display: flex;
-    flex-direction: row;
     justify-content: stretch;
     align-items: center;
-    transition: flex-direction 0.5s ease-in-out;
+    overflow: hidden;
 }
 
-.container-login.register {
-    flex-direction: row-reverse;
-}
-
-
-.container-login .container-img-login {
+.container-login .container-img-login,
+.container-login .container-form-wrapper {
+    position: relative;
     width: 50%;
     height: 100%;
 }
+
 
 .container-login .container-img-login > img {
     width: 100%;
     height: 100%;
     object-fit: cover;
 }
-    
 
-.container-login .container-form-login {
+.container-form-wrapper {
     padding-top: var(--header-height);
     width: 50%;
     height: 100%;
@@ -41,127 +37,30 @@
     align-items: center;
 }
 
-.container-login.register .container-form-login > form {
-    width: 90%;
-    height: 90%;
-    border-radius: 4rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 2.5rem;
-    background-color: var(--black-color);
-    position: relative;
-    padding-top: 1rem;
-} 
-    
+@media screen and (width <= 768px) {
 
-.container-login .container-form-login .containers-inputs {
-    width: 80%;
-    height: 8%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 1rem;
-}
+    .container-login {
+        width: 100%;
+        height: 100%;
+        flex-direction: column;
+    }
 
-.container-login.register .container-form-login > form > button {
-    cursor: pointer;
-    width: 80%;
-    height: 2.5rem;
-    border: none;
-    outline: none;
-    padding-left: 1rem;
-    font-size: 1rem;
-    border: 0.1rem solid transparent;
-    color: var(--text-color);
-    background-color: var(--secondary-color);
-}
+    .container-login .container-img-login,
+    .container-login .container-form-wrapper {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
 
-.container-login .container-form-login .containers-inputs > input {
-    width: 45%;
-    height: 100%;
-    border: none;
-    outline: none;
-    padding-left: 1rem;
-    font-size: 1rem;
-    border: 0.1rem solid var(--white-color);
-    color: var(--text-color);
-    background-color: transparent;
-}
-
-.container-login .container-form-login .containers-inputs > input::placeholder {
-    color: var(--text-color);
-}
-
-.container-login .container-form-login > form {
-    width: 70%;
-    height: 70%;
-    border-radius: 4rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 2.5rem;
-    background-color: var(--black-color);
-    position: relative;
-    padding-top: 1rem;
-}
-
-.container-login .container-form-login > form > .container-img-form {
-    position: absolute;
-    top: -50px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 25%;
-    height: 25%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 100%;
-    background-color: rgb(185, 185, 185);
-    padding: 0.8rem;
-}
-
-.container-login .container-form-login > form > .container-img-form > img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-}
-
-.container-login .container-form-login > form > input {
-    width: 80%;
-    height: 2rem;
-    border: none;
-    outline: none;
-    padding-left: 1rem;
-    font-size: 1rem;
-    border: 0.1rem solid var(--white-color);
-    color: var(--text-color);
-    background-color: transparent;
-}
-
-.container-login .container-form-login > form > input::placeholder {
-    color: var(--text-color);
-}
- 
-.container-login .container-form-login > form > .container-button-login  {
-    width: 80%;
-    height: 10%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 1rem;
-}
-    
-.container-login .container-form-login > form > .container-button-login > button {
-    cursor: pointer;
-    width: 40%;
-    height: 100%;
-    border: none;
-    outline: none;
-    font-size: 1rem;
-    border: 0.1rem solid var(--white-color);
-    color: var(--text-color);
-    background-color: transparent;
+    .container-login .container-form-wrapper {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: var(--black-color-opacity);
+        backdrop-filter: var(--blur-bg);
+    }
 }

@@ -28,7 +28,11 @@
   --black-color: #000;
   --text-color: #fff;
   --primary-color: #fff;
-  --secondary-color: #73ff67;
+  --secondary-color: linear-gradient(90deg,rgba(54, 128, 11, 1) 45%, rgba(142, 201, 22, 1) 80%, rgba(145, 255, 66, 1) 100%);
+  --secondary-color-invert: linear-gradient(90deg,rgba(145, 255, 66, 1) 5%, rgb(122, 167, 32) 30%, rgba(54, 128, 11, 1) 100%);
+  --green-color: rgba(54, 128, 11, 1);
+  --black-color-opacity: rgba(0, 0, 0, 0.5);
+  --blur-bg: blur(7px);
 }   
 
 /* Reset */

@@ -1,0 +1,119 @@
+.form-login {
+    width: 70%;
+    height: 70%;
+    border-radius: 4rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2.5rem;
+    background-color: var(--black-color);
+    position: relative;
+    padding-top: 1rem;
+}
+
+.form-login .container-img-form {
+    position: absolute;
+    top: -50px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 25%;
+    height: 25%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 100%;
+    background-color: rgb(185, 185, 185);
+    padding: 0.8rem;
+}
+
+.form-login .container-img-form > img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.form-login > input {
+    width: 80%;
+    height: 2rem;
+    border: none;
+    outline: none;
+    padding-left: 1rem;
+    font-size: 1rem;
+    border: 0.1rem solid var(--white-color);
+    color: var(--text-color);
+    background-color: transparent;
+}
+
+.form-login > input::placeholder {
+    color: var(--text-color);
+}
+ 
+.form-login .container-button-login  {
+    width: 80%;
+    height: 10%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+}
+    
+.form-login .container-button-login > button {
+    cursor: pointer;
+    width: 40%;
+    height: 100%;
+    border: none;
+    outline: none;
+    font-size: 1rem;
+    border: 0.1rem solid var(--white-color);
+    color: var(--text-color);
+    background-color: transparent;
+    transition: background-color 0.3s ease, color 0.3s ease; /* Transición para hover */
+}
+
+.form-login .container-button-login > button:hover {
+    background-color: var(--white-color);
+    color: var(--black-color);
+}
+
+/* Estilo para el botón de iniciar sesión cuando está enfocado o activo */
+.form-login .container-button-login > button[type="submit"] {
+    background-color: var(--green-color);
+    border: 0.1rem solid transparent;
+    color: var(--text-color);
+}
+
+.form-login .container-button-login > button[type="submit"]:hover {
+    background-color: transparent;
+    border: 0.1rem solid var(--white-color);
+    color: var(--white-color);
+}
+
+
+@media screen and (width <= 768px) {
+    
+    .form-login {
+        width: 100%;
+        height: 70%;
+        padding: 0;
+        margin: 0;
+        gap: 3rem;
+        border-radius: 0;
+        animation: none;
+    }
+
+    .form-login .container-img-form {
+        position: absolute;
+        top: -60px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 10rem;
+        height: 10rem;
+        padding: 2rem;
+    }
+
+    .form-login > input {
+        width: 80%;
+        height: 3.5rem;
+    }
+}
