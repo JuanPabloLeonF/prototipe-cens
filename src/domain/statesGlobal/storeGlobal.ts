@@ -1,11 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { loginSlice } from "../reduces/login";
-
+import { profileSlice } from "../reduces/profile";
 
 export const storeGlobal = configureStore({
     reducer: {
-        //aqui se combinan todos mis reducers
-        login: loginSlice.reducer
+        login: loginSlice.reducer,
+        profile: profileSlice.reducer
     },
     //se pueden añadir middlewares
 })  

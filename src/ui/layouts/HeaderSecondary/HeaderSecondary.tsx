@@ -1,12 +1,24 @@
 import { useState } from "react";
 import "./HeaderSecondary.css";
+import { useNavigate } from "react-router-dom";
 
 export const HeaderSecondary: React.FC = () => {
 
     const [showProfileFunction, setShowProfileFunction] = useState(false);
+    const navigate = useNavigate();
 
     const handlerShowProfileFunction = () => {
         setShowProfileFunction(!showProfileFunction);
+    };
+
+    const handlerLogout = () => {
+        navigate('/');
+        setShowProfileFunction(false);
+    };
+
+    const handlerProfile = () => {
+        navigate('/profile');
+        setShowProfileFunction(false);
     };
 
     return (
@@ -23,8 +35,8 @@ export const HeaderSecondary: React.FC = () => {
             {
                 showProfileFunction && (
                     <div className="container-profile-function">
-                        <span>Perfil</span>
-                        <span>Cerrar Sesión</span>
+                        <span onClick={handlerProfile}>Perfil</span>
+                        <span onClick={handlerLogout}>Cerrar Sesión</span>
                     </div>
                 )
             }

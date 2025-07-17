@@ -34,7 +34,8 @@
     width: 20%;
     height: 100%;
     display: flex;
-    justify-content: center;
+    padding-right: 1rem;
+    justify-content: end;
     align-items: center;
     gap: 1rem;
     cursor: pointer;
@@ -46,6 +47,7 @@
 
 .header-secondary .container-profile .container-img-profile {
     width: 3rem;
+    min-width: 3rem;
     height: 3rem;
     border-radius: 100%;
     overflow: hidden;
@@ -74,4 +76,11 @@
 .header-secondary > .container-profile-function > span:hover {
     background-color: rgba(0, 0, 0, 0.445);
     color: var(--white-color);
+}
+  
+
+@media screen and (width <= 768px) {
+    .header-secondary .container-profile {
+        width: 40%;
+    }
 }
