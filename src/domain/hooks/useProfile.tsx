@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import type { RootState, AppDispatch } from "../statesGlobal/storeGlobal";
 import { useNavigate } from "react-router-dom";
 import { profileSlice } from "../reduces/profile";
+import { ApiUser } from "../apis/apiUser";
 
 export const useProfile = () => {
     const { userData } = useSelector((state: RootState) => state.profile);
@@ -22,9 +23,10 @@ export const useProfile = () => {
     const handlerGoHistory = () => {
         navigate("/history");
     };
-    const handlerUpdateData = (e: React.FormEvent<HTMLFormElement>) => {
+    const handlerUpdateData = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        dispatch(profileSlice.actions.updateData(formData));
+        const response = await ApiUser.updateData(formData);
+        dispatch(profileSlice.actions.updateData(response));
         alert("¡Datos actualizados!");
     };
 

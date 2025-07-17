@@ -1,7 +1,7 @@
 import React from 'react';
 import './FormularyLogin.css';
 import { motion } from 'framer-motion';
-import { useNavigate } from 'react-router-dom';
+import { useFormularyLogin } from '../../../domain/hooks/useFormularyLogin';
 
 interface FormularyLoginProps {
     handlerRegister: () => void;
@@ -10,30 +10,29 @@ interface FormularyLoginProps {
 
 export const FormularyLogin: React.FC<FormularyLoginProps> = ({ handlerRegister, variants }) => {
 
-    const navigate = useNavigate();
-
-    const handlerLogin = () => {
-        navigate('history');
-    };
+    const {
+        handlerSubmit,
+        handlerInputChange,
+    } = useFormularyLogin();
 
     return (
         <motion.form
             className="form-login"
-            action=""
             variants={variants}
             initial="initial"
             animate="animate"
             exit="exit"
             transition={{ duration: 0.4, ease: "easeInOut" }}
+            onSubmit={handlerSubmit}
         >
             <div className="container-img-form">
                 <img src="imgs/user.png" alt="usuario" />
             </div>
-            <input type="text" placeholder="Usuario" />
-            <input type="password" placeholder="Contraseña" />
+            <input required name="user" onChange={handlerInputChange} type="text" placeholder="Usuario" />
+            <input required name="password" onChange={handlerInputChange} type="password" placeholder="Contraseña" />
             <div className="container-button-login">
                 <button type="button" onClick={handlerRegister}>Registrarse</button>
-                <button type="button" onClick={handlerLogin}>Iniciar Sesión</button>
+                <button type="submit">Iniciar Sesión</button>
             </div>
         </motion.form>
     );

@@ -1,25 +1,15 @@
-import { useState } from "react";
+import { useHeaderSecondary } from "../../../domain/hooks/useHeaderSecondary";
 import "./HeaderSecondary.css";
-import { useNavigate } from "react-router-dom";
 
 export const HeaderSecondary: React.FC = () => {
 
-    const [showProfileFunction, setShowProfileFunction] = useState(false);
-    const navigate = useNavigate();
-
-    const handlerShowProfileFunction = () => {
-        setShowProfileFunction(!showProfileFunction);
-    };
-
-    const handlerLogout = () => {
-        navigate('/');
-        setShowProfileFunction(false);
-    };
-
-    const handlerProfile = () => {
-        navigate('/profile');
-        setShowProfileFunction(false);
-    };
+    const {
+        showProfileFunction,
+        handlerShowProfileFunction,
+        handlerLogout,
+        handlerProfile,
+        userData
+    } = useHeaderSecondary();
 
     return (
         <header className="header-secondary">
@@ -30,7 +20,7 @@ export const HeaderSecondary: React.FC = () => {
                 <div className="container-img-profile">
                     <img src="imgs/user.png" alt="user" />
                 </div>
-                <p>Nombre usuario</p>
+                <p>{userData.user}</p>
             </div>
             {
                 showProfileFunction && (
