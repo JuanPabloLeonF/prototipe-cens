@@ -1,0 +1,1171 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AGPE - Sistema de Monitoreo Solar</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-green: #2ECC71;
+            --secondary-green: #27AE60;
+            --accent-yellow: #F1C40F;
+            --dark-bg: #1a1a1a;
+            --card-bg: #2d2d2d;
+            --text-light: #ffffff;
+            --text-gray: #b0b0b0;
+            --gradient-primary: linear-gradient(135deg, #2ECC71, #27AE60);
+            --gradient-secondary: linear-gradient(135deg, #F1C40F, #F39C12);
+            --shadow-soft: 0 10px 30px rgba(0,0,0,0.1);
+            --shadow-hover: 0 15px 40px rgba(0,0,0,0.15);
+            --border-radius: 16px;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            color: var(--text-light);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            margin-bottom: 30px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--gradient-primary);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: white;
+        }
+
+        .logo-text h1 {
+            font-size: 28px;
+            font-weight: 700;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .logo-text p {
+            font-size: 14px;
+            color: var(--text-gray);
+            font-weight: 300;
+        }
+
+        .user-menu {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 20px;
+            background: var(--card-bg);
+            border-radius: 50px;
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .user-info:hover {
+            background: rgba(46, 204, 113, 0.1);
+            border-color: var(--primary-green);
+        }
+
+        .user-avatar {
+            width: 35px;
+            height: 35px;
+            background: var(--gradient-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+
+        /* Navigation Tabs */
+        .nav-tabs {
+            display: flex;
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 8px;
+            margin-bottom: 30px;
+            gap: 4px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .nav-tab {
+            flex: 1;
+            padding: 15px 25px;
+            background: transparent;
+            border: none;
+            color: var(--text-gray);
+            font-weight: 500;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-tab.active {
+            background: var(--gradient-primary);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-soft);
+        }
+
+        .nav-tab:hover:not(.active) {
+            background: rgba(46, 204, 113, 0.1);
+            color: var(--primary-green);
+        }
+
+        /* Page Content */
+        .page {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Contact Form */
+        .contact-form {
+            background: var(--card-bg);
+            padding: 40px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-soft);
+            border: 1px solid rgba(255,255,255,0.1);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .form-title {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .form-title h2 {
+            font-size: 28px;
+            margin-bottom: 10px;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            position: relative;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 16px 20px;
+            background: var(--dark-bg);
+            border: 2px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            color: var(--text-light);
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary-green);
+            box-shadow: 0 0 0 3px rgba(46, 204, 113, 0.1);
+        }
+
+        .form-input::placeholder {
+            color: var(--text-gray);
+        }
+
+        .checkbox-group {
+            display: flex;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            accent-color: var(--primary-green);
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 18px;
+            background: var(--gradient-primary);
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        /* Login Form */
+        .login-form {
+            background: var(--card-bg);
+            padding: 40px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-soft);
+            border: 1px solid rgba(255,255,255,0.1);
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .login-avatar {
+            width: 80px;
+            height: 80px;
+            background: var(--gradient-primary);
+            border-radius: 50%;
+            margin: 0 auto 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+        }
+
+        .login-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .btn-secondary {
+            flex: 1;
+            padding: 14px;
+            background: transparent;
+            border: 2px solid var(--primary-green);
+            border-radius: 10px;
+            color: var(--primary-green);
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background: var(--primary-green);
+            color: white;
+        }
+
+        .btn-primary {
+            flex: 1;
+            padding: 14px;
+            background: var(--gradient-primary);
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-soft);
+        }
+
+        /* Dashboard */
+        .dashboard {
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 30px;
+        }
+
+        .dashboard-left {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .chart-container {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-soft);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .chart-title {
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .chart-type-selector {
+            display: flex;
+            background: var(--dark-bg);
+            border-radius: 8px;
+            padding: 4px;
+        }
+
+        .chart-type-btn {
+            padding: 8px 16px;
+            background: transparent;
+            border: none;
+            color: var(--text-gray);
+            cursor: pointer;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .chart-type-btn.active {
+            background: var(--primary-green);
+            color: white;
+        }
+
+        .chart-placeholder {
+            height: 300px;
+            background: var(--dark-bg);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-gray);
+            border: 2px dashed rgba(255,255,255,0.1);
+        }
+
+        .year-selector {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .year-btn {
+            padding: 10px 20px;
+            background: var(--dark-bg);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            color: var(--text-gray);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .year-btn.active {
+            background: var(--gradient-primary);
+            color: white;
+            border-color: var(--primary-green);
+        }
+
+        .dashboard-right {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .info-card {
+            background: var(--card-bg);
+            padding: 25px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-soft);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .info-card h3 {
+            margin-bottom: 20px;
+            font-size: 18px;
+            color: var(--primary-green);
+        }
+
+        .calendar {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 8px;
+            margin-top: 15px;
+        }
+
+        .calendar-header {
+            background: var(--primary-green);
+            color: white;
+            text-align: center;
+            padding: 10px 5px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 12px;
+        }
+
+        .calendar-day {
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--dark-bg);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+
+        .calendar-day:hover {
+            background: var(--primary-green);
+            color: white;
+        }
+
+        .calendar-day.today {
+            background: var(--accent-yellow);
+            color: var(--dark-bg);
+            font-weight: 600;
+        }
+
+        .consumption-stats {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--dark-bg);
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 15px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary-green);
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: var(--text-gray);
+            margin-top: 5px;
+        }
+
+        .consumption-chart {
+            height: 150px;
+            background: var(--dark-bg);
+            border-radius: 12px;
+            margin-top: 15px;
+            display: flex;
+            align-items: end;
+            padding: 20px;
+            gap: 8px;
+        }
+
+        .chart-bar {
+            flex: 1;
+            background: var(--gradient-primary);
+            border-radius: 4px 4px 0 0;
+            min-height: 20px;
+            animation: growUp 1s ease;
+        }
+
+        @keyframes growUp {
+            from { height: 0; }
+            to { height: var(--height); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+            
+            .dashboard-right {
+                grid-template-columns: 1fr 1fr;
+                grid-template-rows: auto;
+                display: grid;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .header {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+            }
+            
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .nav-tabs {
+                flex-direction: column;
+            }
+            
+            .dashboard-right {
+                grid-template-columns: 1fr;
+            }
+            
+            .login-buttons {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .contact-form,
+            .login-form {
+                padding: 25px;
+            }
+            
+            .logo-text h1 {
+                font-size: 24px;
+            }
+            
+            .chart-container {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-solar-panel"></i>
+                </div>
+                <div class="logo-text">
+                    <h1>AGPE</h1>
+                    <p>Sistema de Monitoreo Solar</p>
+                </div>
+            </div>
+            <div class="user-menu">
+                <div class="user-info">
+                    <div class="user-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <span>Usuario</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+            </div>
+        </header>
+
+        <nav class="nav-tabs">
+            <button class="nav-tab active" onclick="showPage('contact')">
+                <i class="fas fa-address-card"></i> Datos de Contacto
+            </button>
+            <button class="nav-tab" onclick="showPage('profile')">
+                <i class="fas fa-user-edit"></i> Perfil
+            </button>
+            <button class="nav-tab" onclick="showPage('login')">
+                <i class="fas fa-sign-in-alt"></i> Acceso
+            </button>
+            <button class="nav-tab" onclick="showPage('dashboard')">
+                <i class="fas fa-chart-line"></i> Histórico
+            </button>
+        </nav>
+
+        <!-- Página de Contacto -->
+        <div id="contact" class="page active">
+            <div class="contact-form">
+                <div class="form-title">
+                    <h2>Datos de Contacto</h2>
+                    <p style="color: var(--text-gray);">Ingresa tu información para continuar</p>
+                </div>
+                <form>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <input type="text" class="form-input" placeholder="Nombre" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-input" placeholder="Apellido" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-input" placeholder="Contacto" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-input" placeholder="Usuario" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-input" placeholder="Número Medidor" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="password" class="form-input" placeholder="Contraseña" required>
+                        </div>
+                        <div class="form-group full-width">
+                            <input type="email" class="form-input" placeholder="Correo Electrónico" required>
+                        </div>
+                    </div>
+                    <div class="checkbox-group">
+                        <label class="checkbox-item">
+                            <input type="checkbox" required>
+                            <span>Confirmar Contraseña</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" required>
+                            <span>Aceptar Términos</span>
+                        </label>
+                    </div>
+                    <button type="submit" class="submit-btn">
+                        <i class="fas fa-check-circle"></i> Confirmar Registro
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Página de Perfil -->
+        <div id="profile" class="page">
+            <div class="contact-form">
+                <div class="form-title">
+                    <h2>Actualizar Perfil</h2>
+                    <p style="color: var(--text-gray);">Modifica tu información personal</p>
+                </div>
+                <form>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <input type="text" class="form-input" placeholder="Nombre" value="Juan">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-input" placeholder="Apellido" value="Pérez">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-input" placeholder="Contacto" value="+57 300 123 4567">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-input" placeholder="Usuario" value="jperez">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-input" placeholder="Número Medidor" value="2005555">
+                        </div>
+                        <div class="form-group">
+                            <input type="password" class="form-input" placeholder="Nueva Contraseña">
+                        </div>
+                        <div class="form-group full-width">
+                            <input type="email" class="form-input" placeholder="Correo" value="juan@ejemplo.com">
+                        </div>
+                    </div>
+                    <button type="submit" class="submit-btn">
+                        <i class="fas fa-save"></i> Actualizar Datos
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Página de Login -->
+        <div id="login" class="page">
+            <div class="login-form">
+                <div class="login-avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <form>
+                    <div class="form-group" style="margin-bottom: 20px;">
+                        <input type="text" class="form-input" placeholder="Usuario" required>
+                    </div>
+                    <div class="form-group" style="margin-bottom: 25px;">
+                        <input type="password" class="form-input" placeholder="Contraseña" required>
+                    </div>
+                    <div class="login-buttons">
+                        <button type="button" class="btn-secondary">
+                            <i class="fas fa-user-plus"></i> Crear Cuenta
+                        </button>
+                        <button type="submit" class="btn-primary">
+                            <i class="fas fa-sign-in-alt"></i> Iniciar
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Dashboard -->
+        <div id="dashboard" class="page">
+            <div class="dashboard">
+                <div class="dashboard-left">
+                    <div class="chart-container">
+                        <div class="chart-header">
+                            <h3 class="chart-title">Histórico de Consumo</h3>
+                            <div class="chart-type-selector">
+                                <button class="chart-type-btn active">
+                                    <i class="fas fa-chart-bar"></i>
+                                </button>
+                                <button class="chart-type-btn">
+                                    <i class="fas fa-chart-line"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="chart-placeholder">
+                            <div style="text-align: center;">
+                                <i class="fas fa-chart-line" style="font-size: 48px; color: var(--primary-green); margin-bottom: 15px;"></i>
+                                <p>Gráfico de Consumo Energético</p>
+                                <p style="font-size: 14px; margin-top: 10px;">Datos de 2023-2025</p>
+                            </div>
+                        </div>
+                        <div class="year-selector">
+                            <button class="year-btn">2023</button>
+                            <button class="year-btn active">2024</button>
+                            <button class="year-btn">2025</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-right">
+                    <div class="info-card">
+                        <h3><i class="fas fa-calendar-alt"></i> Consumo por Día</h3>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                            <select style="background: var(--dark-bg); border: 1px solid rgba(255,255,255,0.1); color: white; padding: 8px 12px; border-radius: 6px;">
+                                <option>Agosto 2025</option>
+                                <option>Julio 2025</option>
+                                <option>Junio 2025</option>
+                            </select>
+                        </div>
+                        <div class="calendar">
+                            <div class="calendar-header">DO</div>
+                            <div class="calendar-header">LU</div>
+                            <div class="calendar-header">MA</div>
+                            <div class="calendar-header">MI</div>
+                            <div class="calendar-header">JU</div>
+                            <div class="calendar-header">VI</div>
+                            <div class="calendar-header">SA</div>
+                            
+                            <div class="calendar-day">27</div>
+                            <div class="calendar-day">28</div>
+                            <div class="calendar-day">29</div>
+                            <div class="calendar-day">30</div>
+                            <div class="calendar-day">31</div>
+                            <div class="calendar-day">1</div>
+                            <div class="calendar-day">2</div>
+                            <div class="calendar-day">3</div>
+                            <div class="calendar-day">4</div>
+                            <div class="calendar-day">5</div>
+                            <div class="calendar-day">6</div>
+                            <div class="calendar-day">7</div>
+                            <div class="calendar-day">8</div>
+                            <div class="calendar-day">9</div>
+                            <div class="calendar-day">10</div>
+                            <div class="calendar-day">11</div>
+                            <div class="calendar-day">12</div>
+                            <div class="calendar-day">13</div>
+                            <div class="calendar-day">14</div>
+                            <div class="calendar-day">15</div>
+                            <div class="calendar-day">16</div>
+                            <div class="calendar-day">17</div>
+                            <div class="calendar-day">18</div>
+                            <div class="calendar-day today">19</div>
+                            <div class="calendar-day">20</div>
+                            <div class="calendar-day">21</div>
+                            <div class="calendar-day">22</div>
+                            <div class="calendar-day">23</div>
+                            <div class="calendar-day">24</div>
+                            <div class="calendar-day">25</div>
+                            <div class="calendar-day">26</div>
+                            <div class="calendar-day">27</div>
+                            <div class="calendar-day">28</div>
+                            <div class="calendar-day">29</div>
+                            <div class="calendar-day">30</div>
+                            <div class="calendar-day">31</div>
+                        </div>
+                    </div>
+
+                    <div class="info-card">
+                        <h3><i class="fas fa-bolt"></i> Estadísticas de Hoy</h3>
+                        <div class="consumption-stats">
+                            <div class="stat-item">
+                                <div class="stat-value">18.22</div>
+                                <div class="stat-label">KW Histórico</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value">25.68</div>
+                                <div class="stat-label">KW Actual</div>
+                            </div>
+                        </div>
+                        <div class="consumption-chart">
+                            <div class="chart-bar" style="--height: 60%; height: 60%;"></div>
+                            <div class="chart-bar" style="--height: 80%; height: 80%;"></div>
+                            <div class="chart-bar" style="--height: 45%; height: 45%;"></div>
+                            <div class="chart-bar" style="--height: 90%; height: 90%;"></div>
+                            <div class="chart-bar" style="--height: 70%; height: 70%;"></div>
+                            <div class="chart-bar" style="--height: 55%; height: 55%;"></div>
+                            <div class="chart-bar" style="--height: 85%; height: 85%;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showPage(pageId) {
+            // Ocultar todas las páginas
+            const pages = document.querySelectorAll('.page');
+            pages.forEach(page => page.classList.remove('active'));
+            
+            // Mostrar la página seleccionada
+            document.getElementById(pageId).classList.add('active');
+            
+            // Actualizar tabs activos
+            const tabs = document.querySelectorAll('.nav-tab');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            event.target.classList.add('active');
+        }
+
+        // Efectos de interactividad
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animación de las barras del gráfico
+            const chartBars = document.querySelectorAll('.chart-bar');
+            
+            setTimeout(() => {
+                chartBars.forEach((bar, index) => {
+                    bar.style.animationDelay = `${index * 0.1}s`;
+                });
+            }, 500);
+
+            // Hover effects para calendar days
+            const calendarDays = document.querySelectorAll('.calendar-day');
+            calendarDays.forEach(day => {
+                day.addEventListener('click', function() {
+                    calendarDays.forEach(d => d.classList.remove('selected'));
+                    this.classList.add('selected');
+                    updateDayStats(this.textContent);
+                });
+            });
+
+            // Chart type selector functionality
+            const chartTypeBtns = document.querySelectorAll('.chart-type-btn');
+            chartTypeBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    chartTypeBtns.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    updateChartType(this);
+                });
+            });
+
+            // Year selector functionality
+            const yearBtns = document.querySelectorAll('.year-btn');
+            yearBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    yearBtns.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    updateYearData(this.textContent);
+                });
+            });
+
+            // Form validation
+            const forms = document.querySelectorAll('form');
+            forms.forEach(form => {
+                form.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    const btn = this.querySelector('.submit-btn, .btn-primary');
+                    const originalText = btn.innerHTML;
+                    
+                    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Procesando...';
+                    btn.disabled = true;
+                    
+                    setTimeout(() => {
+                        btn.innerHTML = '<i class="fas fa-check"></i> ¡Completado!';
+                        btn.style.background = 'var(--gradient-secondary)';
+                        
+                        setTimeout(() => {
+                            btn.innerHTML = originalText;
+                            btn.disabled = false;
+                            btn.style.background = 'var(--gradient-primary)';
+                        }, 2000);
+                    }, 1500);
+                });
+            });
+
+            // Smooth scrolling and page transitions
+            const navTabs = document.querySelectorAll('.nav-tab');
+            navTabs.forEach(tab => {
+                tab.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const pageId = this.onclick.toString().match(/'([^']+)'/)[1];
+                    smoothPageTransition(pageId, this);
+                });
+            });
+
+            // Auto-update stats simulation
+            setInterval(updateLiveStats, 5000);
+
+            // Responsive navigation
+            handleResponsiveNav();
+        });
+
+        function smoothPageTransition(pageId, activeTab) {
+            // Ocultar todas las páginas con fade out
+            const pages = document.querySelectorAll('.page');
+            const currentPage = document.querySelector('.page.active');
+            
+            if (currentPage) {
+                currentPage.style.opacity = '0';
+                currentPage.style.transform = 'translateY(-20px)';
+                
+                setTimeout(() => {
+                    pages.forEach(page => page.classList.remove('active'));
+                    document.getElementById(pageId).classList.add('active');
+                    
+                    const newPage = document.getElementById(pageId);
+                    newPage.style.opacity = '0';
+                    newPage.style.transform = 'translateY(20px)';
+                    
+                    setTimeout(() => {
+                        newPage.style.opacity = '1';
+                        newPage.style.transform = 'translateY(0)';
+                    }, 50);
+                }, 200);
+            }
+            
+            // Actualizar tabs activos
+            const tabs = document.querySelectorAll('.nav-tab');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            activeTab.classList.add('active');
+        }
+
+        function updateDayStats(day) {
+            const historicValue = document.querySelector('.stat-value');
+            const actualValue = document.querySelectorAll('.stat-value')[1];
+            
+            // Simular datos diferentes para cada día
+            const historic = (Math.random() * 20 + 10).toFixed(2);
+            const actual = (Math.random() * 30 + 15).toFixed(2);
+            
+            historicValue.style.transform = 'scale(0.8)';
+            actualValue.style.transform = 'scale(0.8)';
+            
+            setTimeout(() => {
+                historicValue.textContent = historic;
+                actualValue.textContent = actual;
+                historicValue.style.transform = 'scale(1)';
+                actualValue.style.transform = 'scale(1)';
+            }, 150);
+        }
+
+        function updateChartType(btn) {
+            const chartPlaceholder = document.querySelector('.chart-placeholder');
+            const icon = btn.querySelector('i');
+            
+            chartPlaceholder.style.opacity = '0.5';
+            
+            setTimeout(() => {
+                if (icon.classList.contains('fa-chart-bar')) {
+                    chartPlaceholder.innerHTML = `
+                        <div style="text-align: center;">
+                            <i class="fas fa-chart-bar" style="font-size: 48px; color: var(--primary-green); margin-bottom: 15px;"></i>
+                            <p>Gráfico de Barras - Consumo Energético</p>
+                            <p style="font-size: 14px; margin-top: 10px;">Vista de barras por período</p>
+                        </div>
+                    `;
+                } else {
+                    chartPlaceholder.innerHTML = `
+                        <div style="text-align: center;">
+                            <i class="fas fa-chart-line" style="font-size: 48px; color: var(--accent-yellow); margin-bottom: 15px;"></i>
+                            <p>Gráfico Lineal - Tendencia de Consumo</p>
+                            <p style="font-size: 14px; margin-top: 10px;">Vista de líneas temporales</p>
+                        </div>
+                    `;
+                }
+                chartPlaceholder.style.opacity = '1';
+            }, 200);
+        }
+
+        function updateYearData(year) {
+            const chartPlaceholder = document.querySelector('.chart-placeholder');
+            chartPlaceholder.style.opacity = '0.5';
+            
+            setTimeout(() => {
+                const content = chartPlaceholder.querySelector('div');
+                content.querySelector('p:last-child').textContent = `Datos del año ${year}`;
+                chartPlaceholder.style.opacity = '1';
+            }, 300);
+        }
+
+        function updateLiveStats() {
+            const actualValue = document.querySelectorAll('.stat-value')[1];
+            if (actualValue) {
+                const currentValue = parseFloat(actualValue.textContent);
+                const variation = (Math.random() - 0.5) * 2; // ±1 KW
+                const newValue = Math.max(0, currentValue + variation).toFixed(2);
+                
+                actualValue.style.color = variation > 0 ? '#F39C12' : '#2ECC71';
+                actualValue.textContent = newValue;
+                
+                setTimeout(() => {
+                    actualValue.style.color = 'var(--primary-green)';
+                }, 1000);
+            }
+        }
+
+        function handleResponsiveNav() {
+            const checkWidth = () => {
+                const navTabs = document.querySelector('.nav-tabs');
+                if (window.innerWidth <= 768) {
+                    navTabs.style.position = 'fixed';
+                    navTabs.style.bottom = '0';
+                    navTabs.style.left = '0';
+                    navTabs.style.right = '0';
+                    navTabs.style.zIndex = '1000';
+                    navTabs.style.margin = '0';
+                    navTabs.style.borderRadius = '0';
+                    document.body.style.paddingBottom = '80px';
+                } else {
+                    navTabs.style.position = 'static';
+                    navTabs.style.borderRadius = 'var(--border-radius)';
+                    navTabs.style.margin = '0 0 30px 0';
+                    document.body.style.paddingBottom = '0';
+                }
+            };
+            
+            checkWidth();
+            window.addEventListener('resize', checkWidth);
+        }
+
+        // Notification system
+        function showNotification(message, type = 'success') {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: ${type === 'success' ? 'var(--gradient-primary)' : '#e74c3c'};
+                color: white;
+                padding: 15px 25px;
+                border-radius: 12px;
+                box-shadow: var(--shadow-soft);
+                z-index: 10000;
+                animation: slideIn 0.3s ease;
+                max-width: 300px;
+            `;
+            notification.innerHTML = `
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-triangle'}"></i>
+                    <span>${message}</span>
+                </div>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.animation = 'slideOut 0.3s ease forwards';
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+        }
+
+        // CSS animations for notifications
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideIn {
+                from { transform: translateX(100%); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+            @keyframes slideOut {
+                from { transform: translateX(0); opacity: 1; }
+                to { transform: translateX(100%); opacity: 0; }
+            }
+            .calendar-day.selected {
+                background: var(--accent-yellow) !important;
+                color: var(--dark-bg) !important;
+                font-weight: 600;
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Initialize tooltips
+        function initTooltips() {
+            const tooltipElements = document.querySelectorAll('[data-tooltip]');
+            tooltipElements.forEach(element => {
+                element.addEventListener('mouseenter', showTooltip);
+                element.addEventListener('mouseleave', hideTooltip);
+            });
+        }
+
+        function showTooltip(e) {
+            const tooltip = document.createElement('div');
+            tooltip.className = 'tooltip';
+            tooltip.textContent = e.target.getAttribute('data-tooltip');
+            tooltip.style.cssText = `
+                position: absolute;
+                background: var(--card-bg);
+                color: var(--text-light);
+                padding: 8px 12px;
+                border-radius: 6px;
+                font-size: 12px;
+                z-index: 10000;
+                box-shadow: var(--shadow-soft);
+                border: 1px solid rgba(255,255,255,0.1);
+                pointer-events: none;
+            `;
+            
+            document.body.appendChild(tooltip);
+            
+            const rect = e.target.getBoundingClientRect();
+            tooltip.style.left = `${rect.left + rect.width / 2 - tooltip.offsetWidth / 2}px`;
+            tooltip.style.top = `${rect.top - tooltip.offsetHeight - 8}px`;
+        }
+
+        function hideTooltip() {
+            const tooltip = document.querySelector('.tooltip');
+            if (tooltip) tooltip.remove();
+        }
+    </script>
+</body>
+</html>
